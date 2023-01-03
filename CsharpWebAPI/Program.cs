@@ -1,7 +1,23 @@
 using CsharpWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
+const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy(name: myAllowSpecificOrigins,
+		policy =>
+		{
+			policy.WithOrigins("http://localhost:3000",
+				"http://localhost:4200")
+				.AllowAnyHeader()
+				.AllowAnyMethod()
+				.AllowCredentials();
+		});
+});
+
 
 // Add services to the container.
 
@@ -27,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(myAllowSpecificOrigins);
 
 app.UseAuthorization();
 
