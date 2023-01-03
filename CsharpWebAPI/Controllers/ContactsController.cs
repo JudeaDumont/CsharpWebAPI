@@ -9,7 +9,7 @@ namespace CsharpWebAPI.Controllers
 	[Route("api/[controller]")]
 	public class ContactsController : Controller
 	{
-		private readonly  ContactsAPIDbContext _dbContext;
+		private readonly ContactsAPIDbContext _dbContext;
 
 		public ContactsController(
 			ContactsAPIDbContext dbContext)
@@ -36,14 +36,13 @@ namespace CsharpWebAPI.Controllers
 			await _dbContext.SaveChangesAsync();
 
 			return Ok(contact);
-
 		}
 
 		[HttpPut]
 		[Route("{id:guid}")]
-		public async Task<IActionResult> 
+		public async Task<IActionResult>
 			UpdateContact(
-				[FromRoute] Guid id, 
+				[FromRoute] Guid id,
 				UpdateContactRequest updateContactRequest)
 		{
 			var contact = await _dbContext.Contacts.FindAsync(id);
@@ -80,7 +79,7 @@ namespace CsharpWebAPI.Controllers
 				return NotFound();
 			}
 
-			var deleteId = 
+			var deleteId =
 				_dbContext.Contacts.Remove(contact);
 
 			await _dbContext.SaveChangesAsync();
