@@ -2,6 +2,8 @@ using CsharpWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
 const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+const string reactLocalDefault = "http://localhost:3000";
+const string angularLocalDefault = "http://localhost:4200";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,8 @@ builder.Services.AddCors(options =>
 	options.AddPolicy(name: myAllowSpecificOrigins,
 		policy =>
 		{
-			policy.WithOrigins("http://localhost:3000",
-				"http://localhost:4200")
+			policy.WithOrigins(reactLocalDefault,
+				angularLocalDefault)
 				.AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials();
