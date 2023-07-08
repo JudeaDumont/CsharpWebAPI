@@ -3,3 +3,7 @@
 
 # use rider for code edit
 # visual studio cannot extract C# variables, or just doesn't work out of box
+
+- start debugging CSharpWebAPI in rider
+- cd C:\Users\Admin\Desktop\react-crud\
+- npm start
