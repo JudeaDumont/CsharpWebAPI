@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CsharpWebAPI.Migrations
 {
-    [DbContext(typeof(ContactsAPIDbContext))]
+    [DbContext(typeof(ContactsApiDbContext))]
     [Migration("20230102051735_Initial Migration")]
     partial class InitialMigration
     {

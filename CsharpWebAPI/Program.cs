@@ -29,7 +29,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext
-	<ContactsAPIDbContext>(
+	<ContactsApiDbContext>(
 	options => {
 		options.UseSqlServer(builder.Configuration.GetConnectionString("ContactsApiConnectionString"));
 

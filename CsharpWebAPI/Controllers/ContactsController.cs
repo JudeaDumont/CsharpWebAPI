@@ -5,86 +5,95 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsharpWebAPI.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class ContactsController : Controller
-	{
-		private readonly ContactsAPIDbContext _dbContext;
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ContactsController : Controller
+    {
+        private readonly ContactsApiDbContext _dbContext;
 
-		public ContactsController(
-			ContactsAPIDbContext dbContext)
-		{
-			this._dbContext = dbContext;
-		}
+        public ContactsController(
+            ContactsApiDbContext dbContext)
+        {
+            this._dbContext = dbContext;
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> GetContacts()
-		{
-			return Ok(await _dbContext.Contacts.ToListAsync());
-		}
+        [HttpGet]
+        public async Task<IActionResult> GetContacts()
+        {
+            if (_dbContext.Contacts != null) return Ok(await _dbContext.Contacts.ToListAsync());
+            return NotFound();
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> AddContact(AddContactRequest addContactRequest)
-		{
-			var contact = new Contact()
-			{
-				Id = new Guid(),
-				Name = addContactRequest.Name
-			};
+        [HttpPost]
+        public async Task<IActionResult> AddContact(AddContactRequest addContactRequest)
+        {
+            var contact = new Contact()
+            {
+                Id = new Guid(),
+                Name = addContactRequest.Name
+            };
 
-			await _dbContext.Contacts.AddAsync(contact);
-			await _dbContext.SaveChangesAsync();
+            if (_dbContext.Contacts == null)
+            {
+                return NotFound();
+            }
 
-			return Ok(contact);
-		}
+            await _dbContext.Contacts.AddAsync(contact);
 
-		[HttpPut]
-		[Route("{id:guid}")]
-		public async Task<IActionResult>
-			UpdateContact(
-				[FromRoute] Guid id,
-				UpdateContactRequest updateContactRequest)
-		{
-			var contact = await _dbContext.Contacts.FindAsync(id);
-			if (contact == null) return NotFound();
-			contact.Name = updateContactRequest.Name;
-			await _dbContext.SaveChangesAsync();
-			return Ok(contact);
-		}
+            await _dbContext.SaveChangesAsync();
 
-		[HttpGet]
-		[Route("{id:guid}")]
-		public async Task<IActionResult>
-			GetContact(
-				[FromRoute] Guid id)
-		{
-			var contact = await _dbContext.Contacts.FindAsync(id);
-			if (contact == null)
-			{
-				return NotFound();
-			}
+            return Ok(contact);
+        }
 
-			return Ok(contact);
-		}
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult>
+            UpdateContact(
+                [FromRoute] Guid id,
+                UpdateContactRequest updateContactRequest)
+        {
+            if (_dbContext.Contacts == null) return NotFound();
+            var contact = await _dbContext.Contacts.FindAsync(id);
+            if (contact == null) return NotFound();
+            contact.Name = updateContactRequest.Name;
+            await _dbContext.SaveChangesAsync();
+            return Ok(contact);
+        }
 
-		[HttpDelete]
-		[Route("{id:guid}")]
-		public async Task<IActionResult>
-			DeleteContact(
-				[FromRoute] Guid id)
-		{
-			var contact = await _dbContext.Contacts.FindAsync(id);
-			if (contact == null)
-			{
-				return NotFound();
-			}
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult>
+            GetContact(
+                [FromRoute] Guid id)
+        {
+            if (_dbContext.Contacts == null) return NotFound();
+            var contact = await _dbContext.Contacts.FindAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
 
-			var deleteId =
-				_dbContext.Contacts.Remove(contact);
+            return Ok(contact);
+        }
 
-			await _dbContext.SaveChangesAsync();
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult>
+            DeleteContact(
+                [FromRoute] Guid id)
+        {
+            if (_dbContext.Contacts == null) return NotFound();
+            var contact = await _dbContext.Contacts.FindAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
 
-			return Ok(contact);
-		}
-	}
+            _dbContext.Contacts.Remove(contact);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(contact);
+        }
+    }
 }

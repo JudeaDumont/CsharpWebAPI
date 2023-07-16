@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CsharpWebAPI.Migrations
 {
-    [DbContext(typeof(ContactsAPIDbContext))]
+    [DbContext(typeof(ContactsApiDbContext))]
     partial class ContactsAPIDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
