@@ -1,3 +1,10 @@
+# Expects to be checked out into C:\dev\CsharpReactStack
+
+- cd C:\dev\CsharpReactStack\CsharpWebAPI\CsharpWebAPI\StackScripts
+- buildstackruncypress.bat
+
+# This project is the one that contains higher order stack scripts
+
 # to be used as middleware to MSSQL in conjunction with: https://github.com/JudeaDumont/react-crud-07042023
 # See "appsettings.json"
 
